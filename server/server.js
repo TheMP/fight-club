@@ -38,7 +38,7 @@ app.post('/message', async (req, res) => {
   const message = chat.message;
   const response = await dialogFlow.send(message);
   // trigger this update to our pushers listeners
-  pusher.trigger('chat-bot', 'chat', {
+  pusher.trigger('my-channel', 'my-event', {
     message: `${response.data.result.fulfillment.speech}`,
     type: 'bot',
     createdAt: new Date().toISOString(),

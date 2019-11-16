@@ -38,12 +38,20 @@ export default class Chat extends React.Component<{}, ChatState> {
         });
 
         var channel = pusher.subscribe('my-channel');
-        channel.bind('my-event', function (data: any) {
-            console.log(JSON.stringify(data));
+        channel.bind('my-event', (data: any) => {
+            this.setState(previousState => ({
+                messages: GiftedChat.append(previousState.messages, [
+                    {
+                        text: data.message,
+                        createdAt: new Date(),
+                    },
+                ]),
+            }))
         });
     }
 
     onSend(messages = [] as Message[]) {
+        console.log(messages);
         fetch('http://localhost:5000/message', {
             method: 'POST',
             headers: {
@@ -51,8 +59,7 @@ export default class Chat extends React.Component<{}, ChatState> {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                firstParam: 'yourValue',
-                secondParam: 'yourOtherValue',
+                message: messages[0].text,
             }),
         });
         this.setState(previousState => ({
