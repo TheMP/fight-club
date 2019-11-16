@@ -1,6 +1,8 @@
 import React from "react";
 
-import { View, Text, Button, StyleSheet } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text, Image, StyleSheet } from "react-native";
+import { Button } from 'react-native-elements';
 import { NavigationContainerProps } from "react-navigation"
 
 export interface HomeProps {
@@ -8,34 +10,60 @@ export interface HomeProps {
 }
 
 const styles = StyleSheet.create({
-  category: {
-    marginBottom: 10,
-    //borderRadius: 4,
+  title: {
+    fontSize: 40,
+    fontWeight: "800",
+    marginBottom: 30,
   },
+  category: {
+    width: 200,
+    marginBottom: 30,
+  },
+  buttonIcon: {
+    marginRight: 10,
+  },
+  buttonText: {
+    fontSize: 30,
+  }
 })
 
 export default class HomeScreen extends React.Component<HomeProps & NavigationContainerProps<{}>, {}> {
     render() {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Home Screen</Text>
+          <Image
+            style={{width: 100, height: 100}}
+            source={require('../../assets/logo.png')} />
+          <Text style={styles.title}>FightClub</Text>
           <View style={styles.category}>
             <Button
               title="Chat"
+              titleStyle={styles.buttonText}
+              icon={
+                <Icon
+                  name="comments"
+                  size={30}
+                  color="white"
+                  style={styles.buttonIcon}
+                />
+              }
               onPress={() => this.props.navigation.navigate('Chat')}
             />
           </View>
           <View style={styles.category}>
             <Button
               title="Learn"
-              onPress={() => this.props.navigation.navigate('Logo')}
-            />
-          </View>
-          <View style={styles.category}>
-            <Button
-              title="Courses"
+              titleStyle={styles.buttonText}
+              icon={
+                <Icon
+                  name="book"
+                  size={30}
+                  color="white"
+                  style={styles.buttonIcon}
+                />
+              }
               onPress={() => this.props.navigation.navigate('Course')}
-          />
+            />
           </View>
         </View>
       );
