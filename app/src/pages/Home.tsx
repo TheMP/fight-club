@@ -99,7 +99,7 @@ export default class HomeScreen extends React.Component<HomeProps & NavigationCo
                     style={styles.buttonIcon}
                   />
                 }
-                onPress={() => this.props.navigation.navigate('Course')}
+                onPress={() => this.props.navigation!.navigate('Course')}
               />
             </View>
           </View>

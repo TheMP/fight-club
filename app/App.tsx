@@ -4,6 +4,7 @@ import Chat from "./src/pages/Chat";
 import Logo from "./src/pages/Logo";
 import Course from "./src/pages/Course";
 import Success from "./src/pages/Success";
+import Failure from "./src/pages/Failure";
 
 import { createAppContainer, createSwitchNavigator, } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -14,6 +15,9 @@ const AppNavigator = createStackNavigator({
   },
   Success: {
     screen: Success
+  },
+  Failure: {
+    screen: Failure
   },
   Chat: {
     screen: Chat,

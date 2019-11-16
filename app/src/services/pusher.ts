@@ -1,4 +1,5 @@
 import Pusher from "pusher-js/react-native";
+import { Response } from "../models/Pusher";
 
 Pusher.logToConsole = true;
 
@@ -16,7 +17,7 @@ const getPusher = () => {
 }
 
 
-export const subscribe = async (session: string, callback: (data: {message: string}) => void) => {
+export const subscribe = async (session: string, callback: (data: Response) => void) => {
     const channel = getPusher().subscribe(session);
     channel.bind('dataflow', callback);
 };

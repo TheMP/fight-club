@@ -4,6 +4,7 @@ export interface Message {
     createdAt: Date;
     system?: boolean;
     user?: User;
+    messageLabel?: string;
 }
 
 export interface User {

@@ -1,13 +1,17 @@
 import React from 'react';
+import * as _ from "lodash";
 import { GiftedChat, SystemMessage } from 'react-native-gifted-chat';
 import { Header } from "react-navigation-stack";
 import { KeyboardAvoidingView, Platform, StatusBar, Text, View } from "react-native";
 const uuidv4 = require('uuid/v4');
 import { Message } from "../models/Chat";
+import { Response } from "../models/Pusher";
 import { sendMessage } from "../services/api";
 import * as DF from "../services/pusher";
+import { NavigationContainerProps } from "react-navigation"
 
 const userAvater = require("../../assets/marek.png");
+const kevinAvatar = require("../../assets/kevin.jpg");
 
 interface ChatState {
     messages: Message[];
@@ -15,7 +19,7 @@ interface ChatState {
     session: string;
 }
 
-export default class Chat extends React.Component<{}, ChatState> {
+export default class Chat extends React.Component<NavigationContainerProps<{}>, ChatState> {
     state = {
         ready: false,
         session: uuidv4(),
@@ -27,7 +31,8 @@ export default class Chat extends React.Component<{}, ChatState> {
     }
 
     init = async () => {
-        await DF.subscribe(this.state.session, (data) => {
+        await DF.subscribe(this.state.session, (data: Response) => {
+
             // actual reply from bot
             let text = data.message;
             // comment from our App
@@ -37,20 +42,47 @@ export default class Chat extends React.Component<{}, ChatState> {
             // label indicating this whole conversation is SUCCEED, IN_PROGRESS or FAILED
             let conversationLabel = data.conversationLabel;
 
-            this.setState(previousState => ({
-                messages: GiftedChat.append(previousState.messages, [
+            if (conversationLabel === "SUCCEED") {
+                this.props.navigation!.navigate('Success');
+                return;
+            }
+
+            if (conversationLabel === "FAILED") {
+                this.props.navigation!.navigate('Failure');
+                return;
+            }
+
+            let responses = [] as Message[];
+
+            if (!_.isEmpty(comment)) {
+                responses.push(
+                    {
+                        _id: uuidv4(),
+                        text: comment,
+                        system: true,
+                        createdAt: new Date(),
+                        messageLabel
+                    },
+                )
+            }
+
+            if (!_.isEmpty(text)) {
+                responses.push(
                     {
                         _id: uuidv4(),
                         text: text,
-                        system: true,
                         createdAt: new Date(),
-                        // user: {
-                        //     _id: 2,
-                        //     name: 'Kevin',
-                        //     avatar: 'https://placeimg.com/140/140/any',
-                        // }
+                        user: {
+                            _id: 2,
+                            name: 'Kevin',
+                            avatar: kevinAvatar,
+                        }
                     },
-                ]),
+                )
+            }
+
+            this.setState(previousState => ({
+                messages: GiftedChat.append(previousState.messages, responses),
             }));
         })
 
@@ -77,8 +109,9 @@ export default class Chat extends React.Component<{}, ChatState> {
                 keyboardVerticalOffset={0} enabled={Platform.OS === 'android'} >
                 <GiftedChat
                     showUserAvatar={true}
-                    renderSystemMessage={(props) => (
-                        (
+                    renderSystemMessage={(props) => {
+                        const messageLabel = props.currentMessage.messageLabel;
+                        return (
                             <SystemMessage
                               {...props}
                               containerStyle={{
@@ -86,12 +119,12 @@ export default class Chat extends React.Component<{}, ChatState> {
                                   paddingRight: 60
                               }}
                               textStyle={{
-                                color: 'green',
+                                color: messageLabel === "SUCCESS" ? 'green' : messageLabel === "WARNING" ? "orange" : "red",
                                 textAlign: 'right',
                               }}
                             />
-                          )
-                    )}
+                          );
+                    }}
                     messages={this.state.messages}
                     onSend={this.onSend}
                     user={{
