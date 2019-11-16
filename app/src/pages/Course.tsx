@@ -29,7 +29,7 @@ export default class DepressionCourse extends React.Component<DepressionCoursePr
       ]
 
       return (
-        <View style={styles.container}>
+        <View style={{...styles.container, height: '100%', marginTop: -20, paddingTop: 60}}>
           {tiles.map(i => Item({...tileDimensions, tile: i, main: this}))}     
         </View>
       );
