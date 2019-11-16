@@ -12,11 +12,13 @@ const userAvater = require("../../assets/marek.png");
 interface ChatState {
     messages: Message[];
     ready: boolean;
+    session: string;
 }
 
 export default class Chat extends React.Component<{}, ChatState> {
     state = {
         ready: false,
+        session: uuidv4(),
         messages: [
             {
                 _id: uuidv4(),
@@ -36,7 +38,7 @@ export default class Chat extends React.Component<{}, ChatState> {
     }
 
     init = async () => {
-        await DF.subscribe("df-response", (data) => {
+        await DF.subscribe(this.state.session, (data) => {
             this.setState(previousState => ({
                 messages: GiftedChat.append(previousState.messages, [
                     {
@@ -52,7 +54,7 @@ export default class Chat extends React.Component<{}, ChatState> {
     }
 
     onSend = (messages = [] as Message[]) => {
-        sendMessage(messages[0].text);
+        sendMessage(this.state.session, messages[0].text);
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
         }))
@@ -68,7 +70,7 @@ export default class Chat extends React.Component<{}, ChatState> {
         }
         return (
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}
-                keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight} enabled={Platform.OS === 'android'} >
+                keyboardVerticalOffset={Header.HEIGHT + (StatusBar.currentHeight || 0)} enabled={Platform.OS === 'android'} >
                 <GiftedChat
                     showUserAvatar={true}
                     messages={this.state.messages}

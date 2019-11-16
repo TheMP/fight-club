@@ -16,7 +16,7 @@ const getPusher = () => {
 }
 
 
-export const subscribe = async (eventName: string, callback: (data: {message: string}) => void) => {
-    const channel = getPusher().subscribe('dataflow');
-    channel.bind(eventName, callback);
+export const subscribe = async (session: string, callback: (data: {message: string}) => void) => {
+    const channel = getPusher().subscribe(session);
+    channel.bind('dataflow', callback);
 };

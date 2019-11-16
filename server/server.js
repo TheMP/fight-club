@@ -8,11 +8,11 @@ const axios = require('axios')
 const accessToken = process.env.DIALOGFLOW_ACCESS_TOKEN
 const baseURL = 'https://api.dialogflow.com/v1/query?v=20150910';
 
-const send = async (message) => {
+const send = async (sessionId, message) => {
   const data = {
     query: message,
     lang: 'en',
-    sessionId: '123456789!@#$%'
+    sessionId
   }
   return axios.post(baseURL, data, {
     headers: {
@@ -55,9 +55,9 @@ app.post('/message', async (req, res) => {
   pusher.trigger('chat-bot', 'chat', chat)
 
   const message = chat.message;
-  const response = await send(message);
+  const response = await send(chat.session, message);
   // trigger this update to our pushers listeners
-  pusher.trigger('dataflow', 'df-response', {
+  pusher.trigger(chat.session, 'dataflow', {
     message: `${response.data.result.fulfillment.speech}`,
     createdAt: new Date().toISOString(),
     id: shortId.generate()
