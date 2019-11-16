@@ -25,6 +25,7 @@ const AppNavigator = createStackNavigator({
     screen: Course,
   }
 }, {
+  initialRouteName: 'Home',
   headerMode: 'none',
     navigationOptions: {
         headerVisible: false,

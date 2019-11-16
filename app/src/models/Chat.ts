@@ -2,6 +2,7 @@ export interface Message {
     _id: string | number;
     text: string;
     createdAt: Date;
+    system?: boolean;
     user?: User;
 }
 

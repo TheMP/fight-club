@@ -1,5 +1,5 @@
 import React from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, SystemMessage } from 'react-native-gifted-chat';
 import { Header } from "react-navigation-stack";
 import { KeyboardAvoidingView, Platform, StatusBar, Text, View } from "react-native";
 const uuidv4 = require('uuid/v4');
@@ -33,12 +33,13 @@ export default class Chat extends React.Component<{}, ChatState> {
                     {
                         _id: uuidv4(),
                         text: data.message,
+                        system: true,
                         createdAt: new Date(),
-                        user: {
-                            _id: 2,
-                            name: 'Kevin',
-                            avatar: 'https://placeimg.com/140/140/any',
-                        }
+                        // user: {
+                        //     _id: 2,
+                        //     name: 'Kevin',
+                        //     avatar: 'https://placeimg.com/140/140/any',
+                        // }
                     },
                 ]),
             }));
@@ -64,9 +65,24 @@ export default class Chat extends React.Component<{}, ChatState> {
         }
         return (
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}
-                keyboardVerticalOffset={Header.HEIGHT + (StatusBar.currentHeight || 0)} enabled={Platform.OS === 'android'} >
+                keyboardVerticalOffset={0} enabled={Platform.OS === 'android'} >
                 <GiftedChat
                     showUserAvatar={true}
+                    renderSystemMessage={(props) => (
+                        (
+                            <SystemMessage
+                              {...props}
+                              containerStyle={{
+                                  alignItems: "flex-end",
+                                  paddingRight: 60
+                              }}
+                              textStyle={{
+                                color: 'green',
+                                textAlign: 'right',
+                              }}
+                            />
+                          )
+                    )}
                     messages={this.state.messages}
                     onSend={this.onSend}
                     user={{
