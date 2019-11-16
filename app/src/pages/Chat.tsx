@@ -1,7 +1,7 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Header } from "react-navigation-stack";
-import { KeyboardAvoidingView, Platform, StatusBar } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, Text, View } from "react-native";
 const uuidv4 = require('uuid/v4');
 import { Message } from "../models/Chat";
 import { sendMessage } from "../services/api";
@@ -11,10 +11,14 @@ const userAvater = require("../../assets/marek.png");
 
 interface ChatState {
     messages: Message[];
+    ready: boolean;
+    session: string;
 }
 
 export default class Chat extends React.Component<{}, ChatState> {
     state = {
+        ready: false,
+        session: uuidv4(),
         messages: [
             {
                 _id: uuidv4(),
@@ -29,8 +33,12 @@ export default class Chat extends React.Component<{}, ChatState> {
         ],
     }
 
-    componentDidMount() {
-        DF.subscribe("df-response", (data) => {
+    componentDidMount = () => {
+        this.init();
+    }
+
+    init = async () => {
+        await DF.subscribe(this.state.session, (data) => {
             this.setState(previousState => ({
                 messages: GiftedChat.append(previousState.messages, [
                     {
@@ -41,19 +49,28 @@ export default class Chat extends React.Component<{}, ChatState> {
                 ]),
             }));
         })
+
+        this.setState({ready: true});
     }
 
     onSend = (messages = [] as Message[]) => {
-        sendMessage(messages[0].text);
+        sendMessage(this.state.session, messages[0].text);
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
         }))
     }
 
     render() {
+        if (!this.state.ready) {
+            return (
+                <View>
+                    <Text>Waiting...</Text>
+                </View>
+            )
+        }
         return (
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}
-                keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight} enabled={Platform.OS === 'android'} >
+                keyboardVerticalOffset={Header.HEIGHT + (StatusBar.currentHeight || 0)} enabled={Platform.OS === 'android'} >
                 <GiftedChat
                     showUserAvatar={true}
                     messages={this.state.messages}

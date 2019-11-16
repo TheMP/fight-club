@@ -4,15 +4,34 @@ const Pusher = require('pusher')
 const cors = require('cors')
 require('dotenv').config()
 const shortId = require('shortid')
-const dialogFlow = require('./dialogFlow')
+const axios = require('axios')
+const accessToken = process.env.DIALOGFLOW_ACCESS_TOKEN
+const baseURL = 'https://api.dialogflow.com/v1/query?v=20150910';
+
+const send = async (sessionId, message) => {
+  const data = {
+    query: message,
+    lang: 'en',
+    sessionId
+  }
+  return axios.post(baseURL, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+}
 
 const app = express()
+
+console.log("1");
 
 app.use(cors())
 
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+
+console.log("2");
 
 app.use(bodyParser.json())
 
@@ -36,9 +55,9 @@ app.post('/message', async (req, res) => {
   pusher.trigger('chat-bot', 'chat', chat)
 
   const message = chat.message;
-  const response = await dialogFlow.send(message);
+  const response = await send(chat.session, message);
   // trigger this update to our pushers listeners
-  pusher.trigger('dataflow', 'df-response', {
+  pusher.trigger(chat.session, 'dataflow', {
     message: `${response.data.result.fulfillment.speech}`,
     createdAt: new Date().toISOString(),
     id: shortId.generate()
