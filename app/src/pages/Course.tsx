@@ -39,7 +39,7 @@ export default class DepressionCourse extends React.Component<DepressionCoursePr
 const Item = ({size, margin, tile, main}) => (
   <TouchableHighlight onPress={() => main.props.navigation.navigate(tile.view)}>
     <View style={[styles.item, {width: size, height: size, marginHorizontal: margin}]}>
-      <Text style={{fontSize: 20}}>{tile.icon}</Text>
+      <Text style={{fontSize: 50}}>{tile.icon}</Text>
       <Text style={styles.itemText}>{tile.name}</Text>
     </View>
   </TouchableHighlight>
