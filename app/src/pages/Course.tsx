@@ -22,7 +22,7 @@ export default class DepressionCourse extends React.Component<DepressionCoursePr
     
       return (
         <View style={styles.container}>
-          {tiles.map(i => Item({...tileDimensions, text: i, ...tiles2}))}     
+          {tiles.map(i => Item({...tileDimensions, text: i}))}     
         </View>
       );
     }
