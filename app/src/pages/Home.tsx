@@ -14,9 +14,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#222222'
   },
   topContainer: {
-    margin: 30,
+    margin: 10,
   },
   topContainerText: {
+    margin: 20,
     fontSize: 20,
     fontWeight: "800",
     color: "white",
@@ -85,25 +86,27 @@ export default class HomeScreen extends React.Component<HomeProps & NavigationCo
                 </View>
               </View>
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Burnout')}>
-              <View style={styles.course}>
-                <View>
-                  <Text style={styles.courseCategory}>Mental Health</Text>
-                </View>
-                <View>
-                  <Text style={styles.courseName}>How to deal with depression</Text>
-                </View>
-                <View style={{marginTop: 10}}>
-                  <Text style={styles.courseProgression}>Course Progression</Text>
-                  <View style={styles.progressBar}>
-                    <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "30%" }]}/>
-                    <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>3/10</Text>
+            </View>
+            <View style={styles.topContainer}>
+              <TouchableHighlight onPress={() => this.props.navigation!.navigate('Burnout')}>
+                <View style={styles.course}>
+                  <View>
+                    <Text style={styles.courseCategory}>Burnout</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.courseName}>Introduction to Burnout</Text>
+                  </View>
+                  <View style={{marginTop: 10}}>
+                    <Text style={styles.courseProgression}>Course Progression</Text>
+                    <View style={styles.progressBar}>
+                      <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "30%" }]}/>
+                      <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>3/10</Text>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   </View>
                 </View>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                </View>
-              </View>
-            </TouchableHighlight>
+              </TouchableHighlight>
           </View>
           <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#222222' }}>
             <View>
