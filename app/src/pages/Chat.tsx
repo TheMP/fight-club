@@ -17,13 +17,37 @@ interface ChatState {
     messages: Message[];
     ready: boolean;
     session: string;
+    done: boolean;
 }
 
 export default class Chat extends React.Component<NavigationContainerProps<{}>, ChatState> {
     state = {
         ready: false,
+        done: false,
         session: uuidv4(),
-        messages: [] as Message[],
+        messages: [
+            {
+                _id: uuidv4(),
+                text: "Your friend seems to be quite silent for last few days. You are concerned about him and want to check up on him.",
+                quickReplies: {
+                    type: 'radio', // or 'checkbox',
+                    keepIt: true,
+                    values: [
+                      {
+                        title: 'Hello',
+                        value: 'Hello',
+                      },
+                      {
+                        title: 'Hi',
+                        value: 'Hi',
+                      }
+                    ],
+                  },
+                // system: true,
+                createdAt: new Date(),
+                messageLabel: "WARNING"
+            }
+        ],
     }
 
     componentDidMount = () => {
@@ -42,14 +66,16 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
             // label indicating this whole conversation is SUCCEED, IN_PROGRESS or FAILED
             let conversationLabel = data.conversationLabel;
 
+            console.log(data);
+
             if (conversationLabel === "SUCCEED") {
-                this.props.navigation!.navigate('Success');
-                return;
+                this.setState({done: true});
+                setTimeout(() => this.props.navigation!.navigate('Success'), 5000);
             }
 
             if (conversationLabel === "FAILED") {
-                this.props.navigation!.navigate('Failure');
-                return;
+                this.setState({done: true});
+                setTimeout(() => this.props.navigation!.navigate('Failure'), 5000);
             }
 
             let responses = [] as Message[];
@@ -58,7 +84,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 responses.push(
                     {
                         _id: uuidv4(),
-                        text: comment,
+                        text: comment!,
                         system: true,
                         createdAt: new Date(),
                         messageLabel
@@ -70,7 +96,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 responses.push(
                     {
                         _id: uuidv4(),
-                        text: text,
+                        text: text!,
                         createdAt: new Date(),
                         user: {
                             _id: 2,
@@ -90,10 +116,26 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
     }
 
     onSend = (messages = [] as Message[]) => {
-        sendMessage(this.state.session, messages[0].text);
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
-        }))
+        }));
+        sendMessage(this.state.session, messages[0].text);
+    }
+
+    onQuickReply = (replies: { value: string }[]) => {
+        this.setState(previousState => ({
+            messages: GiftedChat.append(previousState.messages, [{
+                _id: uuidv4(),
+                text: replies[0].value,
+                createdAt: new Date(),
+                user: {
+                    _id: 1,
+                    name: "Marek",
+                    avatar: userAvater
+                }
+            }]),
+        }));
+        sendMessage(this.state.session, replies[0].value);
     }
 
     render() {
@@ -109,6 +151,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 keyboardVerticalOffset={0} enabled={Platform.OS === 'android'} >
                 <GiftedChat
                     showUserAvatar={true}
+                    renderFooter={this.state.done ? () => null : undefined}
                     renderSystemMessage={(props) => {
                         const messageLabel = props.currentMessage.messageLabel;
                         return (
@@ -127,6 +170,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                     }}
                     messages={this.state.messages}
                     onSend={this.onSend}
+                    onQuickReply={this.onQuickReply}
                     user={{
                         _id: 1,
                         name: "Marek",
