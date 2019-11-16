@@ -1,7 +1,8 @@
 import React from 'react';
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
-import { StyleSheet, Text, View } from 'react-native';
+import Logo from "./pages/Logo";
+import Course from "./pages/Course";
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -13,6 +14,12 @@ const AppNavigator = createStackNavigator({
   Chat: {
     screen: Chat,
   },
+  Logo: {
+    screen: Logo,
+  },
+  Course : {
+    screen: Course,
+  }
 });
 
 const AppContainer = createAppContainer(AppNavigator);

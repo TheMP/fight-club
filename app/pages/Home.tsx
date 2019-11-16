@@ -13,9 +13,17 @@ export default class HomeScreen extends React.Component<HomeProps & NavigationCo
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text>Home Screen</Text>
           <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Chat')}
-        />
+            title="Chat"
+            onPress={() => this.props.navigation.navigate('Chat')}
+          />
+          <Button
+            title="Learn"
+            onPress={() => this.props.navigation.navigate('Logo')}
+          />
+          <Button
+            title="Courses"
+            onPress={() => this.props.navigation.navigate('Course')}
+          />
         </View>
       );
     }
