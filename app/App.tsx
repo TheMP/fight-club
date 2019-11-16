@@ -1,7 +1,6 @@
 import React from 'react';
-import Home from "./pages/Home";
-import Chat from "./pages/Chat";
-import { StyleSheet, Text, View } from 'react-native';
+import Home from "./src/pages/Home";
+import Chat from "./src/pages/Chat";
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
