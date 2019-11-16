@@ -34,7 +34,7 @@ const AppNavigator = createStackNavigator({
     screen: Anger
   }
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Chat',
   headerMode: 'none',
     navigationOptions: {
         headerVisible: false,

@@ -17,11 +17,13 @@ interface ChatState {
     messages: Message[];
     ready: boolean;
     session: string;
+    done: boolean;
 }
 
 export default class Chat extends React.Component<NavigationContainerProps<{}>, ChatState> {
     state = {
         ready: false,
+        done: false,
         session: uuidv4(),
         messages: [] as Message[],
     }
@@ -42,14 +44,16 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
             // label indicating this whole conversation is SUCCEED, IN_PROGRESS or FAILED
             let conversationLabel = data.conversationLabel;
 
+            console.log(data);
+
             if (conversationLabel === "SUCCEED") {
-                this.props.navigation!.navigate('Success');
-                return;
+                this.setState({done: true});
+                setTimeout(() => this.props.navigation!.navigate('Success'), 5000);
             }
 
             if (conversationLabel === "FAILED") {
-                this.props.navigation!.navigate('Failure');
-                return;
+                this.setState({done: true});
+                setTimeout(() => this.props.navigation!.navigate('Failure'), 5000);
             }
 
             let responses = [] as Message[];
@@ -58,7 +62,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 responses.push(
                     {
                         _id: uuidv4(),
-                        text: comment,
+                        text: comment!,
                         system: true,
                         createdAt: new Date(),
                         messageLabel
@@ -70,7 +74,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 responses.push(
                     {
                         _id: uuidv4(),
-                        text: text,
+                        text: text!,
                         createdAt: new Date(),
                         user: {
                             _id: 2,
@@ -109,6 +113,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 keyboardVerticalOffset={0} enabled={Platform.OS === 'android'} >
                 <GiftedChat
                     showUserAvatar={true}
+                    renderFooter={this.state.done ? () => null : undefined}
                     renderSystemMessage={(props) => {
                         const messageLabel = props.currentMessage.messageLabel;
                         return (
