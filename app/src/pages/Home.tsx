@@ -1,30 +1,62 @@
 import React from "react";
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, Image, StyleSheet } from "react-native";
-import { Button, withTheme } from 'react-native-elements';
+import { Animated, View, Text, Image, StyleSheet } from "react-native";
+import { Button } from 'react-native-elements';
 import { NavigationContainerProps } from "react-navigation"
+import { StackViewLayout } from "react-navigation-stack";
 
 export interface HomeProps {
 
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 40,
-    fontWeight: "800",
-    marginBottom: 30,
-    color: "white",
+  page: {
+    backgroundColor: '#222222'
   },
-  category: {
-    width: 200,
-    marginBottom: 30,
+  topContainer: {
+    margin: 30,
+  },
+  topContainerText: {
+    fontSize: 20,
+    fontWeight: "800",
+    color: "white",
+    marginBottom: 10,
+    marginTop: 20,
+  },
+  course: {
+    width: "100%",
+    backgroundColor: '#444444',
+    padding: 20,
+    borderRadius: 10,
+    flexDirection: 'column',
+  },
+  courseCategory: {
+    color: "orange",
+    fontSize: 14,
+  },
+  courseName: {
+    color: "white",
+    fontSize: 20,
+  },
+  courseProgression: {
+    fontSize: 13,
+    color: "whitesmoke",
+  },
+  progressBar: {
+    height: 22,
+    marginTop: 3,
+    width: '100%',
+    backgroundColor: "whitesmoke",
+  },
+  button: {
+    backgroundColor: "#01579b",
   },
   buttonIcon: {
     marginRight: 10,
   },
   buttonText: {
-    fontSize: 30,
+    fontSize: 18,
     color: "white",
   }
 })
@@ -32,40 +64,44 @@ const styles = StyleSheet.create({
 export default class HomeScreen extends React.Component<HomeProps & NavigationContainerProps<{}>, {}> {
     render() {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#222222' }}>
-          <Image
-            style={{width: 100, height: 100}}
-            source={require('../../assets/logo.png')} />
-          <Text style={styles.title}>FightClub</Text>
-          <View style={styles.category}>
-            <Button
-              title="Chat"
-              titleStyle={styles.buttonText}
-              icon={
-                <Icon
-                  name="comments"
-                  size={30}
-                  color="white"
-                  style={styles.buttonIcon}
-                />
-              }
-              onPress={() => this.props.navigation.navigate('Chat')}
-            />
+        <View style={[styles.page, { flex: 1 }]}>
+          <View style={styles.topContainer}>
+            <Text style={styles.topContainerText}>My Courses</Text>
+            <View style={styles.course}>
+              <View>
+                <Text style={styles.courseCategory}>Mental Health</Text>
+              </View>
+              <View>
+                <Text style={styles.courseName}>How to deal with depression</Text>
+              </View>
+              <View style={{marginTop: 10}}>
+                <Text style={styles.courseProgression}>Course Progression</Text>
+                <View style={styles.progressBar}>
+                  <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "30%" }]}/>
+                  <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>3/10</Text>
+                </View>
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+              </View>
+            </View>
           </View>
-          <View style={styles.category}>
-            <Button
-              title="Learn"
-              titleStyle={styles.buttonText}
-              icon={
-                <Icon
-                  name="book"
-                  size={30}
-                  color="white"
-                  style={styles.buttonIcon}
-                />
-              }
-              onPress={() => this.props.navigation.navigate('Course')}
-            />
+          <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#222222' }}>
+            <View>
+              <Button
+                title="Discover more courses"
+                buttonStyle={styles.button}
+                titleStyle={styles.buttonText}
+                icon={
+                  <Icon
+                    name="book"
+                    size={15}
+                    color="white"
+                    style={styles.buttonIcon}
+                  />
+                }
+                onPress={() => this.props.navigation.navigate('Course')}
+              />
+            </View>
           </View>
         </View>
       );
