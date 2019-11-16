@@ -8,11 +8,15 @@ const dialogFlow = require('./dialogFlow')
 
 const app = express()
 
+console.log("1");
+
 app.use(cors())
 
 app.use(bodyParser.urlencoded({
   extended: false
 }))
+
+console.log("2");
 
 app.use(bodyParser.json())
 
