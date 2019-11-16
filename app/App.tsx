@@ -5,7 +5,7 @@ import Logo from "./src/pages/Logo";
 import Course from "./src/pages/Course";
 import Success from "./src/pages/Success";
 
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 const AppNavigator = createStackNavigator({
@@ -31,7 +31,11 @@ const AppNavigator = createStackNavigator({
     }
 });
 
-const AppContainer = createAppContainer(AppNavigator);
+const InitialNavigator = createSwitchNavigator({
+  App: AppNavigator
+});
+
+const AppContainer = createAppContainer(InitialNavigator);
 
 export default class App extends React.Component {
   render() {

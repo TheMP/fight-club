@@ -2,7 +2,7 @@ import React from "react";
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, Image, StyleSheet } from "react-native";
-import { Button } from 'react-native-elements';
+import { Button, withTheme } from 'react-native-elements';
 import { NavigationContainerProps } from "react-navigation"
 
 export interface HomeProps {
@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "800",
     marginBottom: 30,
+    color: "white",
   },
   category: {
     width: 200,
@@ -24,13 +25,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 30,
+    color: "white",
   }
 })
 
 export default class HomeScreen extends React.Component<HomeProps & NavigationContainerProps<{}>, {}> {
     render() {
       return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#222222' }}>
           <Image
             style={{width: 100, height: 100}}
             source={require('../../assets/logo.png')} />
