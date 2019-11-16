@@ -1,7 +1,7 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Message } from "../models/Chat";
-import { View, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, Text } from 'react-native';
 import Pusher from "pusher-js/react-native";
 
 interface ChatState {
@@ -14,6 +14,7 @@ export default class Chat extends React.Component<{}, ChatState> {
     }
 
     componentWillMount() {
+        console.log("ere");
         this.setState({
             messages: [
                 {
@@ -43,6 +44,17 @@ export default class Chat extends React.Component<{}, ChatState> {
     }
 
     onSend(messages = [] as Message[]) {
+        fetch('http://localhost:5000/message', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstParam: 'yourValue',
+                secondParam: 'yourOtherValue',
+            }),
+        });
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
         }))
@@ -50,18 +62,13 @@ export default class Chat extends React.Component<{}, ChatState> {
 
     render() {
         return (
-            <View>
-                <GiftedChat
-                    messages={this.state.messages}
-                    onSend={messages => this.onSend(messages)}
-                    user={{
-                        _id: 1,
-                    }}
-                />
-                {
-                    Platform.OS === 'android' && <KeyboardAvoidingView behavior="padding" />
-                }
-            </View>
+            <GiftedChat
+                messages={this.state.messages}
+                onSend={messages => this.onSend(messages)}
+                user={{
+                    _id: 1,
+                }}
+            />
         )
     }
 }
