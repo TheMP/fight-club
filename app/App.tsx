@@ -3,8 +3,9 @@ import Home from "./src/pages/Home";
 import Chat from "./src/pages/Chat";
 import Logo from "./src/pages/Logo";
 import Course from "./src/pages/Course";
+import SplashScreen from './src/pages/SplashScreen';
 
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator, } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 const AppNavigator = createStackNavigator({
@@ -22,7 +23,12 @@ const AppNavigator = createStackNavigator({
   }
 });
 
-const AppContainer = createAppContainer(AppNavigator);
+const InitialNavigator = createSwitchNavigator({
+  Splash: SplashScreen,
+  App: AppNavigator
+});
+
+const AppContainer = createAppContainer(InitialNavigator);
 
 export default class App extends React.Component {
   render() {
