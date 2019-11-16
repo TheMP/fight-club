@@ -25,7 +25,29 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
         ready: false,
         done: false,
         session: uuidv4(),
-        messages: [] as Message[],
+        messages: [
+            {
+                _id: uuidv4(),
+                text: "Your friend seems to be quite silent for last few days. You are concerned about him and want to check up on him.",
+                quickReplies: {
+                    type: 'radio', // or 'checkbox',
+                    keepIt: true,
+                    values: [
+                      {
+                        title: 'Hello',
+                        value: 'Hello',
+                      },
+                      {
+                        title: 'Hi',
+                        value: 'Hi',
+                      }
+                    ],
+                  },
+                // system: true,
+                createdAt: new Date(),
+                messageLabel: "WARNING"
+            }
+        ],
     }
 
     componentDidMount = () => {
@@ -94,10 +116,26 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
     }
 
     onSend = (messages = [] as Message[]) => {
-        sendMessage(this.state.session, messages[0].text);
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
-        }))
+        }));
+        sendMessage(this.state.session, messages[0].text);
+    }
+
+    onQuickReply = (replies: { value: string }[]) => {
+        this.setState(previousState => ({
+            messages: GiftedChat.append(previousState.messages, [{
+                _id: uuidv4(),
+                text: replies[0].value,
+                createdAt: new Date(),
+                user: {
+                    _id: 1,
+                    name: "Marek",
+                    avatar: userAvater
+                }
+            }]),
+        }));
+        sendMessage(this.state.session, replies[0].value);
     }
 
     render() {
@@ -132,6 +170,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                     }}
                     messages={this.state.messages}
                     onSend={this.onSend}
+                    onQuickReply={this.onQuickReply}
                     user={{
                         _id: 1,
                         name: "Marek",
