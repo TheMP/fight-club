@@ -1,7 +1,7 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Header } from "react-navigation-stack";
-import { KeyboardAvoidingView, Platform, StatusBar } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, Text, View } from "react-native";
 const uuidv4 = require('uuid/v4');
 import { Message } from "../models/Chat";
 import { sendMessage } from "../services/api";
@@ -11,10 +11,12 @@ const userAvater = require("../../assets/marek.png");
 
 interface ChatState {
     messages: Message[];
+    ready: boolean;
 }
 
 export default class Chat extends React.Component<{}, ChatState> {
     state = {
+        ready: false,
         messages: [
             {
                 _id: uuidv4(),
@@ -29,8 +31,12 @@ export default class Chat extends React.Component<{}, ChatState> {
         ],
     }
 
-    componentDidMount() {
-        DF.subscribe("df-response", (data) => {
+    componentDidMount = () => {
+        this.init();
+    }
+
+    init = async () => {
+        await DF.subscribe("df-response", (data) => {
             this.setState(previousState => ({
                 messages: GiftedChat.append(previousState.messages, [
                     {
@@ -41,6 +47,8 @@ export default class Chat extends React.Component<{}, ChatState> {
                 ]),
             }));
         })
+
+        this.setState({ready: true});
     }
 
     onSend = (messages = [] as Message[]) => {
@@ -51,6 +59,13 @@ export default class Chat extends React.Component<{}, ChatState> {
     }
 
     render() {
+        if (!this.state.ready) {
+            return (
+                <View>
+                    <Text>Waiting...</Text>
+                </View>
+            )
+        }
         return (
             <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}
                 keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight} enabled={Platform.OS === 'android'} >

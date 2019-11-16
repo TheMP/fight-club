@@ -1,5 +1,5 @@
 export const sendMessage = (text: string) => {
-    fetch('http://localhost:5000/message', {
+    fetch('http:///192.168.1.78:5000/message', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
