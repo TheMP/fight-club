@@ -28,11 +28,16 @@ export default class Chat extends React.Component<{}, ChatState> {
 
     init = async () => {
         await DF.subscribe(this.state.session, (data) => {
+            let msgSplits = data.message.split('|');
+
             this.setState(previousState => ({
                 messages: GiftedChat.append(previousState.messages, [
                     {
                         _id: uuidv4(),
-                        text: data.message,
+                        text: msgSplits[0],
+                        comment: msgSplits[1],
+                        messageLabel: msgSplits[2],
+                        conversationLabel: msgSplits[3],
                         createdAt: new Date(),
                         user: {
                             _id: 2,
