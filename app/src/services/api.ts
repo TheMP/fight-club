@@ -1,5 +1,5 @@
 export const sendMessage = (text: string) => {
-    fetch('http:///192.168.1.78:5000/message', {
+    fetch('https://fight-club-junction.herokuapp.com/message', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
