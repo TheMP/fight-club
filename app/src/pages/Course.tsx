@@ -2,7 +2,10 @@ import React from "react";
 
 import { View, Text, Button, StyleSheet, Dimensions  } from "react-native";
 import { NavigationContainerProps } from "react-navigation";
+import { TouchableHighlight } from "react-native-gesture-handler";
+import { withTheme } from "react-native-elements";
 const { width } = Dimensions.get("window");
+import scenarioStyle from "../../src/common/styles"
 
 export interface DepressionCourseProps {
 
@@ -18,35 +21,27 @@ export default class DepressionCourse extends React.Component<DepressionCoursePr
     render() {
       const tileDimensions = calcTileDimensions(width, 2)  // -> change this number and see!
      // const tiles = 'Lorem Ipsum Dolor Sit Amet'.split(' ')
-      const tiles = ["Scenario I", "Scenario II", "Scenario III"]
-    
+      const tiles = [
+        { name: "Anger", view: "Anger" },
+        { name: "Scenario II", view: "Home" },
+        { name: "Scenario III", view: "Home" },
+        { name: "Scenario IV", view: "Home" }
+      ]
+
       return (
         <View style={styles.container}>
-          {tiles.map(i => Item({...tileDimensions, text: i}))}     
+          {tiles.map(i => Item({...tileDimensions, tile: i, main: this}))}     
         </View>
       );
     }
 }
 
-const Item = ({size, margin, text}) => (
-  <View style={[styles.item, {width: size, height: size, marginHorizontal: margin}]}>
-    <Text style={styles.itemText}>{text}</Text>
-  </View>
+const Item = ({size, margin, tile, main}) => (
+  <TouchableHighlight onPress={() => main.props.navigation.navigate(tile.view)}>
+    <View style={[styles.item, {width: size, height: size, marginHorizontal: margin}]}>
+      <Text style={styles.itemText}>{tile.name}</Text>
+    </View>
+  </TouchableHighlight>
 )
 
-
-const styles = StyleSheet.create({
-  container: {
-     justifyContent: "flex-start", flexDirection: "row", flexWrap: "wrap", marginTop: 30
-  },
-  item: {
-    backgroundColor: 'blue',  
-     alignSelf: "flex-start",
-     alignItems: 'center',
-     justifyContent: 'center',
-     marginBottom: 20
-  },
-  itemText: {
-    fontSize: 20
-  }
-});
+const styles = scenarioStyle
