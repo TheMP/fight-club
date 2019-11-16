@@ -56,9 +56,22 @@ app.post('/message', async (req, res) => {
 
   const message = chat.message;
   const response = await send(chat.session, message);
+
+  let msgSplits = `${response.data.result.fulfillment.speech}`.split('|');
+  // actual reply from bot
+  let text = msgSplits[0];
+  // comment from our App
+  let comment = msgSplits[1];
+  // label indicating this message is SUCCESS, WARNING, ERROR
+  let messageLabel = msgSplits[2];
+  // label indicating this whole conversation is SUCCEED, IN_PROGRESS or FAILED
+  let conversationLabel = msgSplits[3];
   // trigger this update to our pushers listeners
   pusher.trigger(chat.session, 'dataflow', {
-    message: `${response.data.result.fulfillment.speech}`,
+    message: text,
+    comment: comment,
+    messageLabel: messageLabel,
+    conversationLabel: conversationLabel,
     createdAt: new Date().toISOString(),
     id: shortId.generate()
   })

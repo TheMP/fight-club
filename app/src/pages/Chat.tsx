@@ -28,11 +28,20 @@ export default class Chat extends React.Component<{}, ChatState> {
 
     init = async () => {
         await DF.subscribe(this.state.session, (data) => {
+            // actual reply from bot
+            let text = data.message;
+            // comment from our App
+            let comment = data.comment;
+            // label indicating this message is SUCCESS, WARNING, ERROR
+            let messageLabel = data.messageLabel;
+            // label indicating this whole conversation is SUCCEED, IN_PROGRESS or FAILED
+            let conversationLabel = data.conversationLabel;
+
             this.setState(previousState => ({
                 messages: GiftedChat.append(previousState.messages, [
                     {
                         _id: uuidv4(),
-                        text: data.message,
+                        text: text,
                         system: true,
                         createdAt: new Date(),
                         // user: {

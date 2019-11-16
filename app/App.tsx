@@ -9,11 +9,11 @@ import { createAppContainer, createSwitchNavigator, } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 const AppNavigator = createStackNavigator({
-  Success: {
-    screen: Success
-  },
   Home: {
     screen: Home,
+  },
+  Success: {
+    screen: Success
   },
   Chat: {
     screen: Chat,
