@@ -19,18 +19,7 @@ export default class Chat extends React.Component<{}, ChatState> {
     state = {
         ready: false,
         session: uuidv4(),
-        messages: [
-            {
-                _id: uuidv4(),
-                text: 'Hello developer',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            },
-        ],
+        messages: [] as Message[],
     }
 
     componentDidMount = () => {
@@ -45,6 +34,11 @@ export default class Chat extends React.Component<{}, ChatState> {
                         _id: uuidv4(),
                         text: data.message,
                         createdAt: new Date(),
+                        user: {
+                            _id: 2,
+                            name: 'Kevin',
+                            avatar: 'https://placeimg.com/140/140/any',
+                        }
                     },
                 ]),
             }));

@@ -11,9 +11,9 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/manifest-icon-512.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/apple-splash-640-1136.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
