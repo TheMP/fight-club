@@ -1,12 +1,12 @@
 export interface Message {
-    _id: number;
+    _id: string | number;
     text: string;
     createdAt: Date;
-    user: User;
+    user?: User;
 }
 
 export interface User {
-    _id: number;
+    _id: number | string;
     name: string;
     avatar: string;
 }
