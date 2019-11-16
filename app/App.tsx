@@ -5,7 +5,8 @@ import Logo from "./src/pages/Logo";
 import Course from "./src/pages/Course";
 import Success from "./src/pages/Success";
 import Failure from "./src/pages/Failure";
-import Anger from "./src/pages/courses/Anger"
+import Anger from "./src/pages/courses/Anger";
+import Burnout from "./src/pages/courses/Burnout";
 
 import { createAppContainer, createSwitchNavigator, } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -29,10 +30,12 @@ const AppNavigator = createStackNavigator({
   Logo: {
     screen: Logo,
   },
-
+  Burnout: {
+    screen: Burnout,
+  },
   Anger: {
-    screen: Anger
-  }
+    screen: Anger,
+  },
 }, {
   initialRouteName: 'Home',
   headerMode: 'none',

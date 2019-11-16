@@ -1,10 +1,10 @@
 import React from "react";
 
-import { View, Text, Button, StyleSheet, Dimensions  } from "react-native";
+import { View, Text } from "react-native";
 import { NavigationContainerProps } from "react-navigation";
 import scenarioStyle from "../../../src/common/styles"
 
-export default class DepressionCourse extends React.Component<NavigationContainerProps<{}>, {}> {
+export default class AngerCourse extends React.Component<NavigationContainerProps<{}>, {}> {
     render() {
       return (
         <View style={styles.container}>
