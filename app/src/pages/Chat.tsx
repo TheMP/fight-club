@@ -1,5 +1,7 @@
 import React from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
+import { Header } from "react-navigation-stack";
+import { KeyboardAvoidingView, Platform, StatusBar } from "react-native";
 const uuidv4 = require('uuid/v4');
 import { Message } from "../models/Chat";
 import { sendMessage } from "../services/api";
@@ -50,16 +52,19 @@ export default class Chat extends React.Component<{}, ChatState> {
 
     render() {
         return (
-            <GiftedChat
-                showUserAvatar={true}
-                messages={this.state.messages}
-                onSend={this.onSend}
-                user={{
-                    _id: 1,
-                    name: "Marek",
-                    avatar: userAvater
-                }}
-            />
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior={"padding"}
+                keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight} enabled={Platform.OS === 'android'} >
+                <GiftedChat
+                    showUserAvatar={true}
+                    messages={this.state.messages}
+                    onSend={this.onSend}
+                    user={{
+                        _id: 1,
+                        name: "Marek",
+                        avatar: userAvater
+                    }}
+                />
+            </KeyboardAvoidingView>
         )
     }
 }
