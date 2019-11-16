@@ -67,7 +67,7 @@ export default class HomeScreen extends React.Component<HomeProps & NavigationCo
         <View style={[styles.page, { flex: 1 }]}>
           <View style={styles.topContainer}>
             <Text style={styles.topContainerText}>My Courses</Text>
-            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Course')}>
+            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Depression')}>
               <View style={styles.course}>
                 <View>
                   <Text style={styles.courseCategory}>Mental Health</Text>
@@ -99,8 +99,8 @@ export default class HomeScreen extends React.Component<HomeProps & NavigationCo
                   <View style={{marginTop: 10}}>
                     <Text style={styles.courseProgression}>Course Progression</Text>
                     <View style={styles.progressBar}>
-                      <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "30%" }]}/>
-                      <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>3/10</Text>
+                      <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "10%" }]}/>
+                      <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>1/10</Text>
                     </View>
                   </View>
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
