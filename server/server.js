@@ -54,10 +54,7 @@ app.post('/message', async (req, res) => {
   //update pusher listeners
   pusher.trigger('chat-bot', 'chat', chat)
 
-  const message = chat.message;
-  const response = await send(chat.session, message);
-
-  console.log(response.data.result.fulfillment.speech)
+  const response = await send(chat.session, chat.message);
 
   let msgSplits = `${response.data.result.fulfillment.speech}`.split('|');
   // actual reply from bot
@@ -74,6 +71,7 @@ app.post('/message', async (req, res) => {
     comment,
     messageLabel,
     conversationLabel,
+
   })
   res.send(chat)
 })

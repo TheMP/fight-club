@@ -29,7 +29,7 @@ const AppNavigator = createStackNavigator({
     screen: Course,
   }
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Chat',
   headerMode: 'none',
     navigationOptions: {
         headerVisible: false,
