@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 export default class DepressionCourse extends React.Component<DepressionCourseProps & NavigationContainerProps<{}>, {}> {
     render() {
       return (
-          <View style={[styles.page, { flex: 1, marginTop: 30 }]}>
+          <View style={[styles.page, { flex: 1, paddingTop: 30 }]}>
             <Course category="Depression" title="Introduction to depression" progressionPercent="100%" progressionString="10/10" />
             <Course category="Depression" title="Depression: Symptoms and indicators" progressionPercent="100%" progressionString="10/10" />
             <TouchableHighlight onPress={() => this.props.navigation!.navigate('Chat')}>
