@@ -38,9 +38,8 @@ app.post('/message', async (req, res) => {
   const message = chat.message;
   const response = await dialogFlow.send(message);
   // trigger this update to our pushers listeners
-  pusher.trigger('my-channel', 'my-event', {
+  pusher.trigger('dataflow', 'df-response', {
     message: `${response.data.result.fulfillment.speech}`,
-    type: 'bot',
     createdAt: new Date().toISOString(),
     id: shortId.generate()
   })
