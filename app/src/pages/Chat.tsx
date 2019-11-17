@@ -51,7 +51,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{ whi
                 setTimeout(() => this.props.navigation!.navigate('Success', { nextScreen: "Depression", stage: 3 }), 2000);
             }
 
-            if (conversationLabel === "FAILED") {
+            if (conversationLabel === "FAILED" || _.isEmpty(conversationLabel)) {
                 this.setState({ done: true });
                 setTimeout(() => this.props.navigation!.navigate('Failure'), 5000);
             }
