@@ -26,10 +26,17 @@ export default class DepressionCourse extends React.Component<NavigationContaine
             <TouchableHighlight onPress={() => this.props.navigation!.navigate('Chat', { which: 0})} >
               <Class 
                 category="Depression" 
-                title="Learn how to communicate" 
+                title="Interactive: Learn how to communicate" 
                 icon="comments" 
                 completed={props.stage >= 3 ? true : false} />
             </TouchableHighlight>
+            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Chat', { which: 1 })} >
+          <Class
+            category="Depression"
+            title="Interactive: Get more information"
+            icon="comments"
+            completed={false} />
+        </TouchableHighlight>
           </View>
       );
     }
