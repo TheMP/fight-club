@@ -3,7 +3,7 @@ import React from "react";
 import { View, TouchableHighlight, StyleSheet } from "react-native";
 import { NavigationContainerProps } from "react-navigation"
 
-import Course from "../components/course";
+import Class from "../components/class";
 
 export interface DepressionCourseProps {
 
@@ -19,10 +19,10 @@ export default class DepressionCourse extends React.Component<DepressionCoursePr
     render() {
       return (
           <View style={[styles.page, { flex: 1, paddingTop: 30 }]}>
-            <Course category="Depression" title="Introduction to depression" progressionPercent="100%" progressionString="10/10" />
-            <Course category="Depression" title="Depression: Symptoms and indicators" progressionPercent="100%" progressionString="10/10" />
+            <Class category="Depression" title="Introduction to depression" icon="book" completed={true}  />
+            <Class category="Depression" title="Depression: Symptoms and indicators" icon="book" completed={true}  />
             <TouchableHighlight onPress={() => this.props.navigation!.navigate('Chat')}>
-              <Course category="Depression" title="Learn how to communicate" progressionPercent="0%" progressionString="0/10" />
+              <Class category="Depression" title="Learn how to communicate" icon="comments" completed={false} />
             </TouchableHighlight>
           </View>
       );
