@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Animated, View, Text, Image, StyleSheet, TouchableHighlight } from "react-native";
 import { Button } from 'react-native-elements';
 import { NavigationContainerProps } from "react-navigation"
+import Course from "./components/course";
 
 export interface HomeProps {
 
@@ -13,16 +14,14 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: '#222222'
   },
-  topContainer: {
-    margin: 10,
-  },
   topContainerText: {
-    margin: 20,
+    marginTop: 30,
+    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     fontSize: 20,
     fontWeight: "800",
     color: "white",
-    marginBottom: 10,
-    marginTop: 20,
   },
   course: {
     width: "100%",
@@ -51,6 +50,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#01579b",
+    borderRadius: 5,
   },
   buttonIcon: {
     marginRight: 10,
@@ -65,48 +65,16 @@ export default class HomeScreen extends React.Component<HomeProps & NavigationCo
     render() {
       return (
         <View style={[styles.page, { flex: 1 }]}>
-          <View style={styles.topContainer}>
+          <View>
             <Text style={styles.topContainerText}>My Courses</Text>
-            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Depression')}>
-              <View style={styles.course}>
-                <View>
-                  <Text style={styles.courseCategory}>Mental Health</Text>
-                </View>
-                <View>
-                  <Text style={styles.courseName}>How to deal with depression</Text>
-                </View>
-                <View style={{marginTop: 10}}>
-                  <Text style={styles.courseProgression}>Course Progression</Text>
-                  <View style={styles.progressBar}>
-                    <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "30%" }]}/>
-                    <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>3/10</Text>
-                  </View>
-                </View>
-                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                </View>
-              </View>
+            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Depression', {stage: 2})}>
+              <Course category="Mental Health" title="How to deal with depression" progressionPercent="30%" progressionString="3/10" />
             </TouchableHighlight>
-            </View>
-            <View style={styles.topContainer}>
-              <TouchableHighlight onPress={() => this.props.navigation!.navigate('Burnout')}>
-                <View style={styles.course}>
-                  <View>
-                    <Text style={styles.courseCategory}>Burnout</Text>
-                  </View>
-                  <View>
-                    <Text style={styles.courseName}>Introduction to Burnout</Text>
-                  </View>
-                  <View style={{marginTop: 10}}>
-                    <Text style={styles.courseProgression}>Course Progression</Text>
-                    <View style={styles.progressBar}>
-                      <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: "darkseagreen", width: "10%" }]}/>
-                      <Text style={[StyleSheet.absoluteFill, {textAlign: 'right', marginRight: 5, color: "darkgray" }]}>1/10</Text>
-                    </View>
-                  </View>
-                  <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  </View>
-                </View>
-              </TouchableHighlight>
+          </View>
+          <View>
+            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Burnout')}>
+              <Course category="Burnout" title="Introduction to Burnout" progressionPercent="18%" progressionString="2/9" />
+            </TouchableHighlight>
           </View>
           <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#222222' }}>
             <View>
