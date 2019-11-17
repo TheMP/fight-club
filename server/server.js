@@ -7,9 +7,10 @@ const shortId = require('shortid')
 const axios = require('axios')
 
 const accessToken = process.env.DIALOGFLOW_ACCESS_TOKEN
+const accessToken2 = process.env.DIALOGFLOW_ACCESS_TOKEN_2
 const baseURL = 'https://api.dialogflow.com/v1/query?v=20150910';
 
-const send = async (sessionId, message) => {
+const send = async (sessionId, message, which) => {
   const data = {
     query: message,
     lang: 'en',
@@ -17,7 +18,7 @@ const send = async (sessionId, message) => {
   }
   return axios.post(baseURL, data, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
+      Authorization: `Bearer ${which --- 0 ? accessToken : accessToken2}`
     }
   })
 }
@@ -55,7 +56,7 @@ app.post('/message', async (req, res) => {
   //update pusher listeners
   pusher.trigger('chat-bot', 'chat', chat)
 
-  const response = await send(chat.session, chat.message);
+  const response = await send(chat.session, chat.message, chat.which);
 
   let msgSplits = `${response.data.result.fulfillment.speech}`.split('|');
   // actual reply from bot

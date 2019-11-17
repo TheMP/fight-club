@@ -20,34 +20,12 @@ interface ChatState {
     done: boolean;
 }
 
-export default class Chat extends React.Component<NavigationContainerProps<{}>, ChatState> {
+export default class Chat extends React.Component<NavigationContainerProps<{ which: number }>, ChatState> {
     state = {
         ready: false,
         done: false,
         session: uuidv4(),
-        messages: [
-            {
-                _id: uuidv4(),
-                text: "Your friend seems to be quite silent for last few days. You are concerned about him and want to check up on him.",
-                quickReplies: {
-                    type: 'radio', // or 'checkbox',
-                    keepIt: true,
-                    values: [
-                      {
-                        title: 'Hello',
-                        value: 'Hello',
-                      },
-                      {
-                        title: 'Hi',
-                        value: 'Hi',
-                      }
-                    ],
-                  },
-                // system: true,
-                createdAt: new Date(),
-                messageLabel: "WARNING"
-            }
-        ],
+        messages: [] as Message[],
     }
 
     componentDidMount = () => {
@@ -69,12 +47,12 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
             console.log(data);
 
             if (conversationLabel === "SUCCEED") {
-                this.setState({done: true});
-                setTimeout(() => this.props.navigation!.navigate('Success', {nextScreen: "Depression", stage: 3}), 2000);
+                this.setState({ done: true });
+                setTimeout(() => this.props.navigation!.navigate('Success', { nextScreen: "Depression", stage: 3 }), 2000);
             }
 
             if (conversationLabel === "FAILED") {
-                this.setState({done: true});
+                this.setState({ done: true });
                 setTimeout(() => this.props.navigation!.navigate('Failure'), 5000);
             }
 
@@ -112,14 +90,38 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
             }));
         })
 
-        this.setState({ready: true});
+        const messages = [
+            {
+                _id: uuidv4(),
+                text: this.props.navigation.state.params.which === 0 ? "Your friend seems to be quite silent for last few days. You are concerned about him and want to check up on him." : "Your friend is in a defensive mode and you are trying to find out why.",
+                quickReplies: {
+                    type: 'radio', // or 'checkbox',
+                    keepIt: true,
+                    values: [
+                        {
+                            title: 'Hello',
+                            value: 'Hello',
+                        },
+                        {
+                            title: 'Hi',
+                            value: 'Hi',
+                        }
+                    ],
+                },
+                // system: true,
+                createdAt: new Date(),
+                messageLabel: "WARNING"
+            }
+        ]
+
+        this.setState({ ready: true, messages });
     }
 
     onSend = (messages = [] as Message[]) => {
         this.setState(previousState => ({
             messages: GiftedChat.append(previousState.messages, messages),
         }));
-        sendMessage(this.state.session, messages[0].text);
+        sendMessage(this.state.session, messages[0].text, this.props.navigation.state.params.which);
     }
 
     onQuickReply = (replies: { value: string }[]) => {
@@ -135,7 +137,7 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                 }
             }]),
         }));
-        sendMessage(this.state.session, replies[0].value);
+        sendMessage(this.state.session, replies[0].value, this.props.navigation.state.params.which);
     }
 
     render() {
@@ -156,17 +158,17 @@ export default class Chat extends React.Component<NavigationContainerProps<{}>, 
                         const messageLabel = props.currentMessage.messageLabel;
                         return (
                             <SystemMessage
-                              {...props}
-                              containerStyle={{
-                                  alignItems: "flex-end",
-                                  paddingRight: 60
-                              }}
-                              textStyle={{
-                                color: messageLabel === "SUCCESS" ? 'green' : messageLabel === "WARNING" ? "orange" : "red",
-                                textAlign: 'right',
-                              }}
+                                {...props}
+                                containerStyle={{
+                                    alignItems: "flex-end",
+                                    paddingRight: 60
+                                }}
+                                textStyle={{
+                                    color: messageLabel === "SUCCESS" ? 'green' : messageLabel === "WARNING" ? "orange" : "red",
+                                    textAlign: 'right',
+                                }}
                             />
-                          );
+                        );
                     }}
                     messages={this.state.messages}
                     onSend={this.onSend}

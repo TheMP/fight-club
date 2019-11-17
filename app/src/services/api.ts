@@ -1,4 +1,4 @@
-export const sendMessage = (session: string, text: string) => {
+export const sendMessage = (session: string, text: string, which: number) => {
     fetch('https://fight-club-junction.herokuapp.com/message', {
         method: 'POST',
         headers: {
@@ -7,7 +7,8 @@ export const sendMessage = (session: string, text: string) => {
         },
         body: JSON.stringify({
             message: text,
-            session
+            session,
+            which
         }),
     });
 }

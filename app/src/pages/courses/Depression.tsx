@@ -23,7 +23,7 @@ export default class DepressionCourse extends React.Component<NavigationContaine
           <View style={[styles.page, { flex: 1, paddingTop: 30 }]}>
             <Class category="Depression" title="Introduction to depression" icon="book" completed={true}  />
             <Class category="Depression" title="Depression: Symptoms and indicators" icon="book" completed={true}  />
-            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Chat')} >
+            <TouchableHighlight onPress={() => this.props.navigation!.navigate('Chat', { which: 0})} >
               <Class 
                 category="Depression" 
                 title="Learn how to communicate" 
