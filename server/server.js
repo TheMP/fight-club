@@ -18,7 +18,7 @@ const send = async (sessionId, message, which) => {
   }
   return axios.post(baseURL, data, {
     headers: {
-      Authorization: `Bearer ${which --- 0 ? accessToken : accessToken2}`
+      Authorization: `Bearer ${which === 0 ? accessToken : accessToken2}`
     }
   })
 }
