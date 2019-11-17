@@ -14,13 +14,6 @@ const styles = StyleSheet.create({
   topContainer: {
     margin: 10,
   },
-  topContainerText: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: "white",
-    marginBottom: 10,
-    marginTop: 20,
-  },
   course: {
     width: "100%",
     backgroundColor: '#444444',

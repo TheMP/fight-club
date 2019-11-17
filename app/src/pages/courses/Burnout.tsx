@@ -2,7 +2,7 @@ import React from "react";
 
 import { View, StyleSheet } from "react-native";
 import { NavigationContainerProps } from "react-navigation";
-import Course from "../components/course";
+import Class from "../components/class";
 
 const styles = StyleSheet.create({
   page: {
@@ -14,8 +14,9 @@ export default class BurnoutCourse extends React.Component<NavigationContainerPr
   render() {
     return (
       <View style={[styles.page, { flex: 1, paddingTop: 30 }]}>
-        <Course category="Burnout" title="Introduction to burnout" progressionPercent="20%" progressionString="2/10" />
-        <Course category="Burnout" title="Burnout: Symptoms and indicators" progressionPercent="0%" progressionString="0/10" />
+        <Class category="Burnout" title="Introduction to burnout"  icon="book" completed={true}  />
+        <Class category="Burnout" title="Burnout: Symptoms and indicators"  icon="book" completed={false}  />
+        <Class category="Burnout" title="Burnout: Symptoms and indicators" icon="book" completed={false} />
       </View>
     );
   }
