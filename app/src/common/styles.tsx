@@ -10,17 +10,18 @@ export const scenarioStyle = StyleSheet.create({
     color: "white"
   },
   item: {
-    backgroundColor: '#2196f3',  
+    backgroundColor: 'lightskyblue',  
     alignSelf: "flex-start",
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
-    color: "white"
+    color: "white",
+    borderRadius: 5,
   },
   itemText: {
     fontFamily: "Roboto",
     fontWeight: "900",
-    color: "white",
+    color: "#222222",
     fontSize: 20
   }
 });
